@@ -74,13 +74,15 @@ class App extends Component {
 
       await wechatObj.initialize();
 
-      // Usually you want to create a wrapper component or set it as a window variable to use it everywhere else without reinitializing it.
+      // Usually you want to create a wrapper component or set it as a window variable to use wechatObj everywhere else without reinitializing it.
 
+      // Demo share on Wechat
       wechatObj.shareOnChat({
         type: 'link',
         title: 'TITLE',
         link: window.location.href,
-        imgUrl: './logo.svg',
+        // Using external image link for testing because the site is not hosted on the internet yet
+        imgUrl: 'https://www.baidu.com/img/bd_logo1.png?where=super',
         desc: 'description123',
         success: function () {
           alert('shared');
@@ -88,6 +90,7 @@ class App extends Component {
         cancel: function () { }
       });
 
+      // Demo Get User Location through WeChat
       wechatObj.callWechatApi('getLocation', {
         type: 'wgs84', // wgs84 is the default gps coordinates. If wish to return, import 'gcj02' directly as the Mars coordinates used for openLocation.
         success: function (res) {
