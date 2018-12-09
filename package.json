@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
-    "wechat-jssdk": "^3.1.5"
+    "wechat-jssdk": "^4.0.0-alpha.2"
   },
   "scripts": {
     "start": "react-scripts start",
