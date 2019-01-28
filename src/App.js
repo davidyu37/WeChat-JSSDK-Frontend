@@ -1,12 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import ReactLogo from './react.png';
 import './App.css';
 import axios from 'axios';
+// WeChat JSSDK Official Document: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
 import WechatJSSDK from 'wechat-jssdk/dist/client';
 
+// Components
+import Location from './components/Location';
+import Picture from './components/Picture';
+
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      isWeChat: false,
+      wxJSSDKerr: null,
+      wechatObj: null
+    };
+  }
+
   componentWillMount() {
-    this.requestForWeChatParams();
+    // Browser Check
+    const isWechat = this.isWithinWeChat();
+    if(isWechat) {
+      this.requestForWeChatParams();
+    }
   }
 
   requestForWeChatParams = async () => {
@@ -30,7 +50,8 @@ class App extends Component {
         'success': jssdkInstance => { console.log('success', jssdkInstance) },
         'error': (err, jssdkInstance) => { console.log('failed', jssdkInstance) },
         //enable debug mode, same as debug
-        'debug': true,
+        'debug': false,
+        // Tell WeChat what functionalities you would like to use
         'jsApiList': [
           'onMenuShareTimeline',
           'onMenuShareAppMessage',
@@ -75,54 +96,75 @@ class App extends Component {
       await wechatObj.initialize();
 
       // Usually you want to create a wrapper component or set it as a window variable to use wechatObj everywhere else without reinitializing it.
+      this.setState({
+        wechatObj,
+        loading: false,
+      })
 
-      // Demo share on Wechat
-      wechatObj.shareOnChat({
-        type: 'link',
-        title: 'TITLE',
-        link: window.location.href,
-        // Using external image link for testing because the site is not hosted on the internet yet
-        imgUrl: 'https://www.baidu.com/img/bd_logo1.png?where=super',
-        desc: 'description123',
-        success: function () {
-          alert('shared');
-        },
-        cancel: function () { }
-      });
+      this.listenToShareEvent();
 
-      // Demo Get User Location through WeChat
-      wechatObj.callWechatApi('getLocation', {
-        type: 'wgs84', // wgs84 is the default gps coordinates. If wish to return, import 'gcj02' directly as the Mars coordinates used for openLocation.
-        success: function (res) {
-          var latitude = res.latitude; // latitude, floating point, range is 90 ~ -90
-          var longitude = res.longitude; // longitude, floating point, range is 180 ~ -180.
-          var speed = res.speed; // speed, calculated in meter per second
-          var accuracy = res.accuracy; // location accuracy
-
-          console.log(res);
-        }
-      });
-
-      // View the official document for other methods: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+      
       
     } catch (error) {
-      console.log(error);
-      alert(error)
+      console.log({ error });
+      this.setState({
+        wxJSSDKerr: error,
+        loading: false,
+      });
     }
+  }
 
-    
+  isWithinWeChat = () => {
+    const ua = navigator.userAgent.toLowerCase();
+    console.log(ua.match(/MicroMessenger/i));
+    // is within wechat
+    // micromessenger is the keyword that indicates it's within wechat
+    if(ua.match(/MicroMessenger/i) == "micromessenger") {
+      this.setState({
+        isWeChat: true
+      });
+      return true;
+    }
+    return false;
+  }
 
+  listenToShareEvent = () => {
+    // Demo share on Wechat
+    this.state.wechatObj.shareOnChat({
+      type: 'link',
+      title: 'WeChat-JSSDK Demo',
+      link: window.location.href,
+      // Using external image link for testing because the site is not hosted on the internet yet
+      imgUrl: `${window.location.origin}${ReactLogo}`,
+      desc: 'Testing share card on WeChat',
+      success: function () {
+        alert('shared');
+      },
+      cancel: function () { }
+    });
   }
 
   render() {
+    const { wxJSSDKerr, wechatObj, loading, isWeChat } = this.state;
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+          WeChat JSSDK Demo
         </header>
+        {!isWeChat ? <div style={{paddingTop: '40px'}}>Please open in WeChat</div> : null}
+        {/* WeChat JSSDK successfully initiated */}
+        {wechatObj && !loading ? 
+          <div>
+            <div style={{paddingTop: '40px'}}>
+              WeChat JSSDK is Ready
+            </div>
+          </div> :
+          // WeChat JSSDK failed or the website is not within WeChat
+          <div style={{paddingTop: '40px'}}>
+            {wxJSSDKerr ? JSON.stringify(wxJSSDKerr) : null}
+          </div>
+        }
       </div>
     );
   }
