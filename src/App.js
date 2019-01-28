@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import ReactLogo from './react.png';
 import './App.css';
 import axios from 'axios';
 // WeChat JSSDK Official Document: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
 import WechatJSSDK from 'wechat-jssdk/dist/client';
 
 // Components
+import Share from './components/Share';
 import Location from './components/Location';
-import Picture from './components/Picture';
-
 
 class App extends Component {
   constructor(props) {
@@ -27,6 +25,20 @@ class App extends Component {
     if(isWechat) {
       this.requestForWeChatParams();
     }
+  }
+
+  isWithinWeChat = () => {
+    const ua = navigator.userAgent.toLowerCase();
+    console.log(ua.match(/MicroMessenger/i));
+    // is within wechat
+    // micromessenger is the keyword that indicates it's within wechat
+    if(ua.match(/MicroMessenger/i) == "micromessenger") {
+      this.setState({
+        isWeChat: true
+      });
+      return true;
+    }
+    return false;
   }
 
   requestForWeChatParams = async () => {
@@ -112,36 +124,6 @@ class App extends Component {
         loading: false,
       });
     }
-  }
-
-  isWithinWeChat = () => {
-    const ua = navigator.userAgent.toLowerCase();
-    console.log(ua.match(/MicroMessenger/i));
-    // is within wechat
-    // micromessenger is the keyword that indicates it's within wechat
-    if(ua.match(/MicroMessenger/i) == "micromessenger") {
-      this.setState({
-        isWeChat: true
-      });
-      return true;
-    }
-    return false;
-  }
-
-  listenToShareEvent = () => {
-    // Demo share on Wechat
-    this.state.wechatObj.shareOnChat({
-      type: 'link',
-      title: 'WeChat-JSSDK Demo',
-      link: window.location.href,
-      // Using external image link for testing because the site is not hosted on the internet yet
-      imgUrl: `${window.location.origin}${ReactLogo}`,
-      desc: 'Testing share card on WeChat',
-      success: function () {
-        alert('shared');
-      },
-      cancel: function () { }
-    });
   }
 
   render() {
