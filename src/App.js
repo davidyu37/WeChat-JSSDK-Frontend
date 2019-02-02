@@ -4,10 +4,6 @@ import axios from 'axios';
 // WeChat JSSDK Official Document: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
 import WechatJSSDK from 'wechat-jssdk/dist/client';
 
-// Components
-import Share from './components/Share';
-import Location from './components/Location';
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -111,12 +107,7 @@ class App extends Component {
       this.setState({
         wechatObj,
         loading: false,
-      })
-
-      this.listenToShareEvent();
-
-      
-      
+      });
     } catch (error) {
       console.log({ error });
       this.setState({
