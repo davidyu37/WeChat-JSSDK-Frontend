@@ -4,6 +4,10 @@ import axios from 'axios';
 // WeChat JSSDK Official Document: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
 import WechatJSSDK from 'wechat-jssdk/dist/client';
 
+
+// Components
+import Location from './components/Location';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +46,7 @@ class App extends Component {
     const url = window.location.href.split('#')[0];
 
     // If you want to test on your device, be sure to use your IP address instead of localhost
-    const YourBackEndUrl = `http://localhost:4000/get-signature?url=${encodeURIComponent(url)}`
+    const YourBackEndUrl = `http://192.168.0.111:4000/get-signature?url=${encodeURIComponent(url)}`
 
     try {
       const { data } = await axios.get(YourBackEndUrl);
@@ -132,6 +136,7 @@ class App extends Component {
             <div style={{paddingTop: '40px'}}>
               WeChat JSSDK is Ready
             </div>
+            <Location wechatObj={wechatObj}/>
           </div> :
           // WeChat JSSDK failed or the website is not within WeChat
           <div style={{paddingTop: '40px'}}>
