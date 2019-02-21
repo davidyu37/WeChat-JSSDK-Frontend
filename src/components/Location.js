@@ -25,12 +25,12 @@ class Location extends Component {
 
   openMap = () => {
     this.props.wechatObj.callWechatApi('openLocation', {
-      latitude: 0, // Latitude, floating point, range is 90 ~ -90
-      longitude: 0, // longitude, floating point, range is 180 ~ -180.
-      name: '', // Location name
-      address: '', // Address detail description
-      scale: 1, // Map scale, alter value, range is 1~28. Default is maximum
-      infoUrl: '' // Click on the hyperlink that appears at the bottom of the View Location screen
+      latitude: 31.3008482874, // Latitude, floating point, range is 90 ~ -90
+      longitude: 120.5886840820, // longitude, floating point, range is 180 ~ -180.
+      name: 'Name', // Location name
+      address: 'Address', // Address detail description
+      scale: 15, // Map scale, alter value, range is 1~28. Default is maximum
+      infoUrl: 'https://baidu.com' // Click on the hyperlink that appears at the bottom of the View Location screen
     });
   }
 
