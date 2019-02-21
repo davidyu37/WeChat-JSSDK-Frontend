@@ -4,6 +4,8 @@ import axios from 'axios';
 // WeChat JSSDK Official Document: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
 import WechatJSSDK from 'wechat-jssdk/dist/client';
 
+import Login from './components/Login';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -131,6 +133,7 @@ class App extends Component {
           <div>
             <div style={{paddingTop: '40px'}}>
               WeChat JSSDK is Ready
+              <Login wechatObj={wechatObj} />
             </div>
           </div> :
           // WeChat JSSDK failed or the website is not within WeChat

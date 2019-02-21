@@ -56,3 +56,25 @@
   width: 300px;
   height: 300px;
 }
+
+.user-info-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
+}
+
+.user-info-row {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.user-info-row .label {
+  font-weight: bold;
+}
+
+.user-infow-row .value {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
