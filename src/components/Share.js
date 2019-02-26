@@ -25,6 +25,7 @@ class Share extends Component {
       link: window.location.href.split('#')[0], // Share Link,this link domain name and path must be the same as the current page which corresponding to JS secured domain name as Official account
       imgUrl,
       desc,
+      // dataUrl: '', // If type is music or video
       success: function () {
         // Sharing Success
         alert('shared');
