@@ -62,7 +62,7 @@ class App extends Component {
         'success': jssdkInstance => { console.log('success', jssdkInstance) },
         'error': (err, jssdkInstance) => { console.log('failed', jssdkInstance) },
         //enable debug mode, same as debug
-        'debug': false,
+        'debug': true,
         // Tell WeChat what functionalities you would like to use
         'jsApiList': [
           'onMenuShareTimeline',
