@@ -44,7 +44,7 @@ class App extends Component {
     const url = window.location.href.split('#')[0];
 
     // If you want to test on your device, be sure to use your IP address instead of localhost
-    const YourBackEndUrl = `http://localhost:4000/get-signature?url=${encodeURIComponent(url)}`
+    const YourBackEndUrl = `http://192.168.1.102:4000/get-signature?url=${encodeURIComponent(url)}`
 
     try {
       const { data } = await axios.get(YourBackEndUrl);
