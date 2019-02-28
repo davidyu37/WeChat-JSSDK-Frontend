@@ -5,6 +5,7 @@ import axios from 'axios';
 import WechatJSSDK from 'wechat-jssdk/dist/client';
 
 import Login from './components/Login';
+import config from './config';
 
 class App extends Component {
   constructor(props) {
@@ -27,7 +28,6 @@ class App extends Component {
 
   isWithinWeChat = () => {
     const ua = navigator.userAgent.toLowerCase();
-    console.log(ua.match(/MicroMessenger/i));
     // is within wechat
     // micromessenger is the keyword that indicates it's within wechat
     if(ua.match(/MicroMessenger/i) == "micromessenger") {
@@ -44,7 +44,7 @@ class App extends Component {
     const url = window.location.href.split('#')[0];
 
     // If you want to test on your device, be sure to use your IP address instead of localhost
-    const YourBackEndUrl = `http://192.168.1.102:4000/get-signature?url=${encodeURIComponent(url)}`
+    const YourBackEndUrl = `${config.backendUrl}/get-signature?url=${encodeURIComponent(url)}`
 
     try {
       const { data } = await axios.get(YourBackEndUrl);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import config from '../config';
 
 class Share extends Component {
   constructor(props) {
@@ -16,7 +17,6 @@ class Share extends Component {
   checkParams = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const user = urlParams.get('user');
-    console.log(user);
     if(user) {
         this.setState({
             user: JSON.parse(user)
@@ -25,7 +25,7 @@ class Share extends Component {
   }
 
   login = async () => {
-    const YourBackEndUrl = `http://192.168.1.102:4000/auth-link`;
+    const YourBackEndUrl = `${config.backendUrl}/auth-link`;
 
     try {
         const { data } = await axios.get(YourBackEndUrl);
